@@ -30,6 +30,11 @@ def main():
         p.advance()
         print("Command: \'{}\' of Type: {}".format(
             p.current_command, p.command_type()))
+        if p.command_type() != 'C_COMMAND':
+            print('Symbol: {}'.format(p.symbol()))
+        else:
+            print('Dest: {}, Comp: {}, Jump: {}'.format(
+                p.dest(), p.comp(), p.jump()))
 
 
 if __name__ == "__main__":
