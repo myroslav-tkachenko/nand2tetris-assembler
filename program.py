@@ -1,18 +1,13 @@
 import sys
 import os
 from parser_module import Parser
-
-
-def get_full_input_filename():
-    try:
-        input_filename = sys.argv[1]
-        return os.path.abspath(os.path.join(input_filename))
-    except IndexError:
-        return None
+from code_module import Code
+from predefined_symbols import predefined_symbols
 
 
 def main():
     input_filename = get_full_input_filename()
+    output_filename = get_full_output_filename(input_filename)
 
     if not input_filename:
         print('You need to specify an input filename.')
@@ -23,18 +18,52 @@ def main():
         return
 
     p = Parser(input_filename)
+    with open(output_filename, 'w') as fout:
+        while True:
+            if not p.has_more_commands():
+                break
 
-    while True:
-        if not p.has_more_commands():
-            break
-        p.advance()
-        print("Command: \'{}\' of Type: {}".format(
-            p.current_command, p.command_type()))
-        if p.command_type() != 'C_COMMAND':
-            print('Symbol: {}'.format(p.symbol()))
+            p.advance()
+            command = decode_command(p)
+            fout.write(command + '\n')
+
+
+def decimal_to_binary_str(dec_value):
+    return format(dec_value, '015b')
+
+
+def decode_command(p):
+    command_type = p.command_type()
+    command_decoded = ''
+    c = Code()
+
+    if command_type == 'L_COMMAND':
+        command_decoded = p.symbol()
+    elif command_type == 'A_COMMAND':
+        symbol = p.symbol()
+        if symbol in predefined_symbols:
+            predefined_symbol = predefined_symbols[symbol]
+            command_decoded = '0' + decimal_to_binary_str(predefined_symbol)
         else:
-            print('Dest: {}, Comp: {}, Jump: {}'.format(
-                p.dest(), p.comp(), p.jump()))
+            command_decoded = '0' + decimal_to_binary_str(int(symbol))
+
+    elif command_type == 'C_COMMAND':
+        command_decoded = '111' + \
+            c.comp(p.comp()) + c.dest(p.dest()) + c.jump(p.jump())
+
+    return command_decoded
+
+
+def get_full_input_filename():
+    try:
+        input_filename = sys.argv[1]
+        return os.path.abspath(os.path.join(input_filename))
+    except IndexError:
+        return None
+
+
+def get_full_output_filename(input_filename):
+    return input_filename[:-3] + 'hack'
 
 
 if __name__ == "__main__":
