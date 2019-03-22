@@ -30,7 +30,6 @@ class SymbolTable:
         }
 
     def add_entry(self, symbol, address):
-        print('symbol: {}, address: {}'.format(symbol, address))
         self.symbol_table[symbol] = address
 
     def contains(self, symbol):

@@ -81,12 +81,10 @@ def is_number(string):
 
 def decode_command(p, st):
     command_type = p.command_type()
-    command_decoded = ''
+    command_decoded = None
     c = Code()
 
-    if command_type == 'L_COMMAND':
-        command_decoded = None
-    elif command_type == 'A_COMMAND':
+    if command_type == 'A_COMMAND':
         symbol = p.symbol()
         if st.contains(symbol):
             symbol_value = st.get_address(symbol)
