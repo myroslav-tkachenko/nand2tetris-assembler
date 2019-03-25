@@ -1,6 +1,3 @@
-from predefined_symbols import predefined_symbols
-
-
 class SymbolTable:
     def __init__(self):
         self.symbol_table = {

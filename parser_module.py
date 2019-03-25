@@ -54,9 +54,10 @@ class Parser:
     def comp(self):
         has_dest = self.current_command.find('=') > -1
         has_jump = self.current_command.find(';') > -1
-        command = self.current_command.split('=')[1] if has_dest else self.current_command
-        return command.split(';')[0] if has_jump else return command
+        command = self.current_command.split(
+            '=')[1] if has_dest else self.current_command
+        return command.split(';')[0] if has_jump else command
 
     def jump(self):
         has_jump = self.current_command.find(';') > -1
-        return self.current_command.split(';')[1] if has_jump else return None
+        return self.current_command.split(';')[1] if has_jump else None
