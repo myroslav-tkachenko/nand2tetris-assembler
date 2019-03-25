@@ -49,30 +49,14 @@ class Parser:
 
     def dest(self):
         has_dest = self.current_command.find('=') > -1
-
-        if has_dest:
-            return self.current_command.split('=')[0]
-        else:
-            return None
+        return self.current_command.split('=')[0] if has_dest else None
 
     def comp(self):
         has_dest = self.current_command.find('=') > -1
         has_jump = self.current_command.find(';') > -1
-
-        if has_dest:
-            command = self.current_command.split('=')[1]
-        else:
-            command = self.current_command
-
-        if has_jump:
-            return command.split(';')[0]
-        else:
-            return command
+        command = self.current_command.split('=')[1] if has_dest else self.current_command
+        return command.split(';')[0] if has_jump else return command
 
     def jump(self):
         has_jump = self.current_command.find(';') > -1
-
-        if has_jump:
-            return self.current_command.split(';')[1]
-        else:
-            return None
+        return self.current_command.split(';')[1] if has_jump else return None
