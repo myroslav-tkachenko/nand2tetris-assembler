@@ -30,12 +30,12 @@ def main():
         p0.advance()
         command_type = p0.command_type()
         symbol = p0.symbol()
-        position_address += 1
 
         if command_type == 'L_COMMAND':
-            position_address -= 1
             if not st.contains(symbol):
                 st.add_entry(symbol, position_address)
+        else:
+            position_address += 1
 
     # parse addresses
     p1 = Parser(input_filename)
