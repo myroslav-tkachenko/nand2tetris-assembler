@@ -7,7 +7,6 @@ from symbols_module import SymbolTable
 
 def main():
     input_filename = get_full_input_filename()
-    output_filename = get_full_output_filename(input_filename)
 
     if not input_filename:
         print('You need to specify an input filename.')
@@ -16,6 +15,8 @@ def main():
     if not os.path.exists(input_filename):
         print('The file {} does not exists.'.format(input_filename))
         return
+
+    output_filename = get_full_output_filename(input_filename)
 
     # parse labels
     st = SymbolTable()
